@@ -19,34 +19,28 @@ class MyChat implements MessageComponentInterface
         $this->clients = [];
     }
 
-    public function onOpen(ConnectionInterface $conn)
+    public function onOpen(ConnectionInterface $client)
     {
-        var_dump(session_status());
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }        
-     
-        print_r($_SESSION['user']);
-     
-        if (isset($_SESSION['user'])) {
-
-            $user = $_SESSION['user'];
-            $conn->id = $user['id'];
-            $conn->name = $user['name'];
-            $conn->email = $user['email'];
-            $conn->status = $user['status'];
-
-            $this->clients[$user['id']] = $conn;
-            echo "TOTAL CONNECTIONS COUNT:" . count($this->clients) . PHP_EOL;
-            $conn->send($conn->id);
+        print_r($client);
     
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+            $client->id = $user['id'];
+            $client->name = $user['name'];
+            $client->email = $user['email'];
+            $client->status = $user['status'];
+
+            $this->clients[$user['id']] = $client;
+            echo "TOTAL CONNECTIONS COUNT:" . count($this->clients) . PHP_EOL;
+            $client->send($client->id);
+
             foreach ($this->clients as $client) {
                 $client->send(json_encode($this->clients));
             }
-        }else{
-            $conn->send('NOT AUTHENTICATED');
-            $conn->close();
-        }    
+        } else {
+            $client->send('NOT AUTHENTICATED');
+            $client->close();
+        }
     }
 
     public function onMessage(ConnectionInterface $from, $msg)
@@ -58,18 +52,18 @@ class MyChat implements MessageComponentInterface
         }
     }
 
-    public function onClose(ConnectionInterface $conn)
+    public function onClose(ConnectionInterface $client)
     {
-        if (isset($conn->id) && $conn->id) {
-            unset($this->clients[$conn->id]);
+        if (isset($client->id) && $client->id) {
+            unset($this->clients[$client->id]);
         }
 
         echo "TOTAL CONNECTIONS COUNT:" . count($this->clients) . PHP_EOL;
     }
 
-    public function onError(ConnectionInterface $conn, \Exception $e)
+    public function onError(ConnectionInterface $client, \Exception $e)
     {
-        $conn->close();
+        $client->close();
     }
 }
 

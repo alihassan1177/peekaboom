@@ -7,6 +7,9 @@ $user = $_SESSION['user'];
 
 if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['logout'])) {
     session_destroy();
+    $user_id = $user['id'];
+    $expiry_time = time();
+    mysqli_query($conn, "UPDATE `user_sessions` SET `expired_at`='$expiry_time' WHERE `user_id` = $user_id");
     header("location:login.php");
 }
 
@@ -27,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['logout'])) {
 <body class="bg-light">
 
     <div class="container">
-        <div style="min-height: 100vh;" class="d-flex align-items-center justify-content-center">   
+        <div style="min-height: 100vh;" class="d-flex align-items-center justify-content-center">
             <div>
                 <h1>Hello <?= $user['name'] ?></h1>
                 <form action="" method="post">
@@ -41,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['logout'])) {
     <script src="/assets/js/bootstrap.js"></script>
     <script src="/assets/js/main.js"></script>
 
-    
+
 
 </body>
 

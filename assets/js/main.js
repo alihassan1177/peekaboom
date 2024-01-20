@@ -1,4 +1,4 @@
-const conn = new WebSocket('ws://localhost:8080')
+const conn = new WebSocket('ws://localhost:8080/?id=1')
 
 conn.addEventListener('open', (event) => {
     console.log('CONNECTED')
