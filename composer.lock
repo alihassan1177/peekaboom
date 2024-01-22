@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65c9a8f87141c77ac44bfffa60df8163",
+    "content-hash": "ed9f77e5d3613ccdc196b3cabe6ecc85",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -231,6 +231,70 @@
                 }
             ],
             "time": "2023-12-03T20:05:35+00:00"
+        },
+        {
+            "name": "josantonius/cookie",
+            "version": "v2.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/josantonius/php-cookie.git",
+                "reference": "278c002e4b55c21c988e8c4e7e63eb6b7a3c3c56"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/josantonius/php-cookie/zipball/278c002e4b55c21c988e8c4e7e63eb6b7a3c3c56",
+                "reference": "278c002e4b55c21c988e8c4e7e63eb6b7a3c3c56",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^7.4",
+                "phpmd/phpmd": "^2.6",
+                "phpunit/phpunit": "^9.5",
+                "squizlabs/php_codesniffer": "^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Josantonius\\Cookie\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josantonius",
+                    "email": "hello@josantonius.dev",
+                    "homepage": "https://josantonius.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP library for handling cookies.",
+            "keywords": [
+                "cookies",
+                "php"
+            ],
+            "support": {
+                "discussions": "https://github.com/josantonius/php-cookie/discussions",
+                "issues": "https://github.com/josantonius/php-cookie/issues",
+                "source": "https://github.com/josantonius/php-cookie"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Josantonius",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-08-10T22:19:41+00:00"
         },
         {
             "name": "psr/http-factory",

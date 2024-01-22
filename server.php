@@ -1,5 +1,6 @@
 <?php
 
+use Josantonius\Cookie\Cookie;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Http\HttpServer;
@@ -7,24 +8,39 @@ use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 
 // Make sure composer dependencies have been installed
-require __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 require_once "config.php";
 
 class MyChat implements MessageComponentInterface
 {
     protected $clients;
+    protected Cookie $cookie;
+    protected mysqli $conn;
 
-    public function __construct()
+    public function __construct($cookie, $conn)
     {
         $this->clients = [];
+        $this->cookie = $cookie;
+        $this->conn = $conn;
     }
 
     public function onOpen(ConnectionInterface $client)
     {
-        print_r($client);
-    
-        if (isset($_SESSION['user'])) {
-            $user = $_SESSION['user'];
+
+        $querystring = $client->httpRequest->getUri()->getQuery();
+        $strings = explode("&", $querystring);
+        $params = [];
+
+        foreach ($strings as $param) {
+            $param = explode("=", $param);
+            $params[$param[0]] = $param[1];
+        }
+
+        if (isset($params['id'])) {
+            $user_id = $params['id'];
+            $query = mysqli_query($this->conn, "SELECT * FROM `users` WHERE `id` = $user_id");
+            $data = mysqli_fetch_all($query, MYSQLI_ASSOC);
+            $user = $data[0];
             $client->id = $user['id'];
             $client->name = $user['name'];
             $client->email = $user['email'];
@@ -32,6 +48,8 @@ class MyChat implements MessageComponentInterface
 
             $this->clients[$user['id']] = $client;
             echo "TOTAL CONNECTIONS COUNT:" . count($this->clients) . PHP_EOL;
+            print_r($user);
+            echo " Connected" . PHP_EOL;
             $client->send($client->id);
 
             foreach ($this->clients as $client) {
@@ -70,7 +88,7 @@ class MyChat implements MessageComponentInterface
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new MyChat()
+            new MyChat($cookie, $conn)
         )
     ),
     8080

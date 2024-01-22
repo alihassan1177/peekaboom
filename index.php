@@ -9,6 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['logout'])) {
     session_destroy();
     $user_id = $user['id'];
     $expiry_time = time();
+    $cookie->remove('user');
     mysqli_query($conn, "UPDATE `user_sessions` SET `expired_at`='$expiry_time' WHERE `user_id` = $user_id");
     header("location:login.php");
 }
@@ -42,8 +43,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['logout'])) {
     </div>
 
     <script src="/assets/js/bootstrap.js"></script>
-    <script src="/assets/js/main.js"></script>
 
+    <script>
+        const conn = new WebSocket('ws://localhost:8080/?id=<?= $user['id'] ?>&access_token=45151')
+
+        conn.addEventListener('open', (event) => {
+            console.log('CONNECTED')
+        })
+
+        conn.addEventListener('message', (event) => {
+            console.log(event.data)
+        })
+
+        conn.addEventListener('close', () => {
+            console.log("CONNECTION CLOSED")
+        })
+    </script>
 
 
 </body>

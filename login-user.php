@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login_user'])) {
             }
 
             $_SESSION['user'] = $user;
-
+            $cookie->set('user', $user['id']);
             $current_time = time();
 
             mysqli_query($conn, "INSERT INTO `user_sessions`(`user_id`, `created_at`) VALUES ($user_id, '$current_time')");
