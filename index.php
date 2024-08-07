@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['logout'])) {
     <script src="/assets/js/bootstrap.js"></script>
 
     <script>
-        const conn = new WebSocket('ws://localhost:8080/?id=<?= $user['id'] ?>&access_token=45151')
+        const conn = new WebSocket('ws://localhost:8080/?id=<?= $user['id'] ?>&access_token=asd@#4e3qdcas')
 
         conn.addEventListener('open', (event) => {
             console.log('CONNECTED')

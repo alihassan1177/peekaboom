@@ -37,7 +37,10 @@ class MyChat implements MessageComponentInterface
         }
 
         if (isset($params['id'])) {
-            $user_id = $params['id'];
+            $token = "";
+            $query = mysqli_query($this->conn, "SELECT * FROM `access_tokens` WHERE `token` = $token");
+            $token_data = mysqli_fetch_all($query, MYSQLI_ASSOC);
+            $user_id = $token_data['user_id'];
             $query = mysqli_query($this->conn, "SELECT * FROM `users` WHERE `id` = $user_id");
             $data = mysqli_fetch_all($query, MYSQLI_ASSOC);
             $user = $data[0];
